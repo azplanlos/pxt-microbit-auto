@@ -28,12 +28,18 @@ active = 0
 L = 0
 Speed = 50
 basic.forever(function () {
-    if (Speed > 0) {
-        maqueen.motorRun(maqueen.Motors.M1, maqueen.Dir.CW, L)
-        maqueen.motorRun(maqueen.Motors.M2, maqueen.Dir.CW, R)
+    if (maqueen.Ultrasonic(PingUnit.Centimeters) == 10) {
+        active = 0
+        maqueen.motorStop(maqueen.Motors.All)
+        radio.sendString("vib")
     } else {
-        maqueen.motorRun(maqueen.Motors.M1, maqueen.Dir.CCW, Math.abs(L))
-        maqueen.motorRun(maqueen.Motors.M2, maqueen.Dir.CCW, Math.abs(R))
+        if (Speed > 0) {
+            maqueen.motorRun(maqueen.Motors.M1, maqueen.Dir.CW, L)
+            maqueen.motorRun(maqueen.Motors.M2, maqueen.Dir.CW, R)
+        } else {
+            maqueen.motorRun(maqueen.Motors.M1, maqueen.Dir.CCW, Math.abs(L))
+            maqueen.motorRun(maqueen.Motors.M2, maqueen.Dir.CCW, Math.abs(R))
+        }
+        basic.pause(100)
     }
-    basic.pause(100)
 })
